@@ -11,6 +11,7 @@ const states = {
 let state = states.IDLE;
 let wavesurfer;
 let wavesurfer2;
+let wavesurfer3;
 let otherChordFile;
 let waveData = null;
 const waveStates = {
@@ -89,7 +90,7 @@ function preload() {
 
 function setup() {
   let cnv = createCanvas(windowWidth, 240);
-  cnv.parent('actions-container')
+  cnv.parent('actions-container');
   cnv.style('display', 'block');
 
   loadDiv = select('#load-screen');
@@ -105,24 +106,24 @@ function setup() {
 
   chordInputBtn = createFileInput(readMainChordFile, false);
   chordInputBtn.position(baseX+300, baseY); baseY += 30;
-  chordInputBtn.attribute('disabled', true)
+  chordInputBtn.attribute('disabled', true);
 
   chordCompareBtn = createFileInput(readOtherChordFile, false);
   chordCompareBtn.position(baseX+300, baseY); baseY += 30;
-  chordCompareBtn.attribute('disabled', true)
+  chordCompareBtn.attribute('disabled', true);
 
   // Add new file input for third .lab file
   chordCompareBtn3 = createFileInput(readThirdChordFile, false);
   chordCompareBtn3.position(baseX+300, baseY); baseY += 30;
-  chordCompareBtn3.attribute('disabled', true)
+  chordCompareBtn3.attribute('disabled', true);
 
-  playBtn = createButton('PLAY')
+  playBtn = createButton('PLAY');
   playBtn.position(baseX, baseY);
   playBtn.attribute('class', 'button');
   playBtn.mouseReleased(playPause);
   playBtn.attribute('disabled', true);
-
 }
+
 
 function windowResized() { // automatically resize window
   resizeCanvas(windowWidth, 240);
@@ -256,28 +257,28 @@ function readThirdChordFile(file) {
 /* Music visualization        */
 function initWaveforms() {
   wavesurfer = WaveSurfer.create({
-      container: '#waveform',
-      waveColor: 'violet',
-      progressColor: 'purple',
-      scrollParent: true,
-      minPxPerSec: 80,
-      plugins: [
-        WaveSurfer.cursor.create({
-          showTime: true,
-          opacity: 0.5,
-          customShowTimeStyle: {
-            'padding': '5px',
-            'padding-top': '100px',
-            'font-size': '12px'
-          }
-        }),
-        WaveSurfer.regions.create({}),
-        WaveSurfer.markers.create({}),
-        WaveSurfer.timeline.create({
-          container: "#wave-timeline",
-          timeInterval: 1,
-        })
-      ]
+    container: '#waveform',
+    waveColor: 'violet',
+    progressColor: 'purple',
+    scrollParent: true,
+    minPxPerSec: 80,
+    plugins: [
+      WaveSurfer.cursor.create({
+        showTime: true,
+        opacity: 0.5,
+        customShowTimeStyle: {
+          'padding': '5px',
+          'padding-top': '100px',
+          'font-size': '12px'
+        }
+      }),
+      WaveSurfer.regions.create({}),
+      WaveSurfer.markers.create({}),
+      WaveSurfer.timeline.create({
+        container: "#wave-timeline",
+        timeInterval: 1,
+      })
+    ]
   });
 
   wavesurfer.on('ready', function () {
@@ -285,26 +286,26 @@ function initWaveforms() {
   });
 
   wavesurfer.on('finish', function () {
-    playBtn.html('PLAY')
+    playBtn.html('PLAY');
     waveState = waveStates.PAUSE;
   });
 
   wavesurfer2 = WaveSurfer.create({
-      container: '#waveform2',
-      waveColor: 'violet',
-      progressColor: 'purple',
-      scrollParent: true,
-      minPxPerSec: 80,
-      interact: false,
-      hideScrollbar: true,
-      plugins: [
-        WaveSurfer.regions.create({}),
-        WaveSurfer.markers.create({}),
-        WaveSurfer.timeline.create({
-          container: "#wave-timeline2",
-          timeInterval: 1,
-        })
-      ]
+    container: '#waveform2',
+    waveColor: 'violet',
+    progressColor: 'purple',
+    scrollParent: true,
+    minPxPerSec: 80,
+    interact: false,
+    hideScrollbar: true,
+    plugins: [
+      WaveSurfer.regions.create({}),
+      WaveSurfer.markers.create({}),
+      WaveSurfer.timeline.create({
+        container: "#wave-timeline2",
+        timeInterval: 1,
+      })
+    ]
   });
 
   wavesurfer2.setMute(true);
@@ -323,27 +324,27 @@ function initWaveforms() {
   });
 
   wavesurfer2.on('finish', function () {
-    playBtn.html('PLAY')
+    playBtn.html('PLAY');
     waveState = waveStates.PAUSE;
   });
 
   // Initialize wavesurfer3
   wavesurfer3 = WaveSurfer.create({
-      container: '#waveform3',
-      waveColor: 'violet',
-      progressColor: 'purple',
-      scrollParent: true,
-      minPxPerSec: 80,
-      interact: false,
-      hideScrollbar: true,
-      plugins: [
-        WaveSurfer.regions.create({}),
-        WaveSurfer.markers.create({}),
-        WaveSurfer.timeline.create({
-          container: "#wave-timeline3",
-          timeInterval: 1,
-        })
-      ]
+    container: '#waveform3',
+    waveColor: 'violet',
+    progressColor: 'purple',
+    scrollParent: true,
+    minPxPerSec: 80,
+    interact: false,
+    hideScrollbar: true,
+    plugins: [
+      WaveSurfer.regions.create({}),
+      WaveSurfer.markers.create({}),
+      WaveSurfer.timeline.create({
+        container: "#wave-timeline3",
+        timeInterval: 1,
+      })
+    ]
   });
 
   wavesurfer3.setMute(true);
@@ -362,7 +363,7 @@ function initWaveforms() {
   });
 
   wavesurfer3.on('finish', function () {
-    playBtn.html('PLAY')
+    playBtn.html('PLAY');
     waveState = waveStates.PAUSE;
   });
 }
