@@ -4,6 +4,23 @@
   <meta charset="utf-8">
   <title>autochord</title>
   <link rel="stylesheet" href="assets/style.css">
+  <style>
+    @font-face {
+      font-family: 'Source Sans Pro';
+      src: url('assets/SourceSansPro-SemiboldIt.otf') format('opentype');
+      font-weight: 600;
+      font-style: italic;
+    }
+    @font-face {
+      font-family: 'Source Sans Pro';
+      src: url('assets/SourceSansPro-Regular.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+  </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/3.8.0/tf.min.js"></script>
   <script src="https://unpkg.com/wavesurfer.js@5.2.0/dist/wavesurfer.min.js"></script>
@@ -26,6 +43,9 @@
   <br>
   <div id="waveform3" style="font-size:200%; position: relative"></div>
   <div id="wave-timeline3"></div>
+  <br>
+  <div id="waveform4" style="font-size:200%; position: relative"></div>
+  <div id="wave-timeline4"></div>
   <br>
 </body>
 </html>
