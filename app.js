@@ -198,6 +198,10 @@ function loadSong(file) {
   wavesurfer2.clearMarkers();
   wavesurfer2.empty();
 
+  wavesurfer3.clearRegions();
+  wavesurfer3.clearMarkers();
+  wavesurfer3.empty();
+  
   wavesurfer.load(waveData);
 }
 
