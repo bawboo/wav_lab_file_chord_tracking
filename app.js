@@ -12,8 +12,10 @@ let state = states.IDLE;
 let wavesurfer;
 let wavesurfer2;
 let wavesurfer3;
+let wavesurfer4;
 let otherChordFile;
 let thirdChordFile;
+let fourthChordFile;
 let waveData = null;
 const waveStates = {
   PLAY: 'play',
@@ -25,6 +27,7 @@ let playBtn;
 let chordInputBtn;
 let chordCompareBtn;
 let chordCompareBtn3;
+let chordCompareBtn4;
 let loadTimer;
 let loadProgress;
 
@@ -99,10 +102,14 @@ function setup() {
   chordCompareBtn.position(baseX+300, baseY); baseY += 30;
   chordCompareBtn.attribute('disabled', true);
 
-  // Add new file input for third .lab file
   chordCompareBtn3 = createFileInput(readThirdChordFile, false);
   chordCompareBtn3.position(baseX+300, baseY); baseY += 30;
   chordCompareBtn3.attribute('disabled', true);
+
+  // Add new file input for fourth .lab file
+  chordCompareBtn4 = createFileInput(readFourthChordFile, false);
+  chordCompareBtn4.position(baseX+300, baseY); baseY += 30;
+  chordCompareBtn4.attribute('disabled', true);
 
   playBtn = createButton('PLAY');
   playBtn.position(baseX, baseY);
@@ -127,6 +134,7 @@ function draw() {
   text('Load song:', 30, baseY); baseY += 30;
   text('Load chords:', 30, baseY); baseY += 30;
   text('Load other chords (for comparing):', 30, baseY); baseY += 30;
+  text('Load more chords (for comparing):', 30, baseY); baseY += 30;
 
   if (state == states.LOADING) {
     if ((millis() - loadTimer) > 500.0)
@@ -160,6 +168,7 @@ function initLoading() {
   chordInputBtn.attribute('disabled', true);
   chordCompareBtn.attribute('disabled', true);
   chordCompareBtn3.attribute('disabled', true);
+  chordCompareBtn4.attribute('disabled', true);
   playBtn.attribute('disabled', true);
 }
 
@@ -168,6 +177,7 @@ function finishLoading() {
   chordInputBtn.removeAttribute('disabled');
   chordCompareBtn.removeAttribute('disabled');
   chordCompareBtn3.removeAttribute('disabled');
+  chordCompareBtn4.removeAttribute('disabled');
   playBtn.removeAttribute('disabled');
 
   state = states.IDLE;
@@ -201,7 +211,11 @@ function loadSong(file) {
   wavesurfer3.clearRegions();
   wavesurfer3.clearMarkers();
   wavesurfer3.empty();
-  
+
+  wavesurfer4.clearRegions();
+  wavesurfer4.clearMarkers();
+  wavesurfer4.empty();
+
   wavesurfer.load(waveData);
 }
 
@@ -210,12 +224,14 @@ function playPause() {
     wavesurfer.pause();
     wavesurfer2.pause();
     wavesurfer3.pause();
+    wavesurfer4.pause();
     playBtn.html('PLAY');
     waveState = waveStates.PAUSE;
   } else if (waveState == waveStates.PAUSE) {
     wavesurfer.play();
     wavesurfer2.play();
     wavesurfer3.play();
+    wavesurfer4.play();
     playBtn.html('PAUSE');
     waveState = waveStates.PLAY;
   }
@@ -243,6 +259,12 @@ function readThirdChordFile(file) {
   thirdChordFile = file;
   initLoading();
   wavesurfer3.load(waveData);
+}
+
+function readFourthChordFile(file) {
+  fourthChordFile = file;
+  initLoading();
+  wavesurfer4.load(waveData);
 }
 /******************************/
 
@@ -321,7 +343,6 @@ function initWaveforms() {
     waveState = waveStates.PAUSE;
   });
 
-  // Initialize wavesurfer3
   wavesurfer3 = WaveSurfer.create({
     container: '#waveform3',
     waveColor: 'violet',
@@ -356,6 +377,45 @@ function initWaveforms() {
   });
 
   wavesurfer3.on('finish', function () {
+    playBtn.html('PLAY');
+    waveState = waveStates.PAUSE;
+  });
+
+  // Initialize wavesurfer4
+  wavesurfer4 = WaveSurfer.create({
+    container: '#waveform4',
+    waveColor: 'violet',
+    progressColor: 'purple',
+    scrollParent: true,
+    minPxPerSec: 80,
+    interact: false,
+    hideScrollbar: true,
+    plugins: [
+      WaveSurfer.regions.create({}),
+      WaveSurfer.markers.create({}),
+      WaveSurfer.timeline.create({
+        container: "#wave-timeline4",
+        timeInterval: 1,
+      })
+    ]
+  });
+
+  wavesurfer4.setMute(true);
+  wavesurfer.on('seek', (progress) => {
+    wavesurfer4.seekAndCenter(progress);
+  });
+
+  wavesurfer4.on('ready', function () {
+    readChordFile(fourthChordFile, wavesurfer4);
+    finishLoading();
+
+    let progress = wavesurfer.getCurrentTime() / wavesurfer.getDuration();
+    wavesurfer4.seekAndCenter(progress);
+    if (wavesurfer.isPlaying())
+      wavesurfer4.play();
+  });
+
+  wavesurfer4.on('finish', function () {
     playBtn.html('PLAY');
     waveState = waveStates.PAUSE;
   });
