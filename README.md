@@ -1,4 +1,10 @@
 # chord_tracking
+---
+## Usage
+Click [This website](https://bawboo.github.io/wav_lab_file_chord_tracking/), upload .wav file and .lab files to visualize the chords progression.
+
+## 使用方法
+右邊連結進入本repo的網頁, 輸入.wav和.lab檔即可進行和弦視覺化追蹤：[WAV和LAB文件的和弦追踪](https://bawboo.github.io/wav_lab_file_chord_tracking/)
 
 ## 基于 AutoChord 项目
 
